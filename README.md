@@ -75,8 +75,7 @@ Comunicação entre serviços via APIs HTTP.
 
 ### 📂 Estrutura do Projeto
 
-GestaoEventosSystem/
-
+NexusEvent/
 ├── backend/Api/
 
 ├── frontend/
