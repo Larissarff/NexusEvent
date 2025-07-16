@@ -76,10 +76,15 @@ Comunicação entre serviços via APIs HTTP.
 ### 📂 Estrutura do Projeto
 
 GestaoEventosSystem/
+
 ├── backend/Api/
+
 ├── frontend/
+
 ├── facial_recognition/
+
 ├── docker-compose.yml
+
 └── README.md
 
 Cada serviço contém seu próprio Dockerfile.
