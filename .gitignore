@@ -1,2 +1,4 @@
-
+# Arquivos que não devem subir
 **\.venv
+**\bin
+**\obj
