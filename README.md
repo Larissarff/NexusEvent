@@ -76,6 +76,7 @@ Comunicação entre serviços via APIs HTTP.
 ### 📂 Estrutura do Projeto
 
 NexusEvent/
+
 ├── backend/Api/
 
 ├── frontend/
