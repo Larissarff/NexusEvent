@@ -7,7 +7,6 @@ RUN npm install
 COPY . .
 RUN npm run build:ssr
 
-# Runtime com Node.js
 FROM node:18
 WORKDIR /app
 COPY --from=build /app/dist /app/dist
