@@ -2,14 +2,16 @@ version: "3.9"
 
 services:
   backend:
-    build: ./backend/Api
+    build:
+      context: ./backend
+      dockerfile: Api/Dockerfile
     ports:
       - "5000:5000"
     networks:
       - nexus_network
 
   frontend:
-    build: ./frontend
+    build: ./NexusEventFrontEnd
     ports:
       - "4200:4200"
     networks:
@@ -37,6 +39,7 @@ services:
 
 volumes:
   db_data:
+
 
 networks:
   nexus_network:
