@@ -1,4 +1,6 @@
-namespace NexusEventBack.Enums;
+using NexusEventBack.Enums;
+
+namespace NexusEventBack.Models;
 
 public class UserModel : RegisterModel
 {

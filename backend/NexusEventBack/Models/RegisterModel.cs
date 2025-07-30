@@ -1,3 +1,5 @@
+namespace NexusEventBack.Models;
+
 public abstract class RegisterModel
 {
     public DateTime CreatedAt { get; set; }

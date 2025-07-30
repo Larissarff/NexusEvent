@@ -1,4 +1,4 @@
-using NexusEventBack.Enum.StatusReservationEnum;
+using NexusEventBack.Enums;
 
 public enum StatusReservationEnum
 {
