@@ -10,7 +10,7 @@ public class MeetingModel : RegisterModel
     public string? Location { get; set; } = null!;
 
 
-    public ICollection<MeetingParticipantModel> Participants { get; set; } = null!;
+    public ICollection<MeetingParticipantModel?> Participants { get; set; } = null!;
     public MinutesModel? Minutes { get; set; }
 
 }

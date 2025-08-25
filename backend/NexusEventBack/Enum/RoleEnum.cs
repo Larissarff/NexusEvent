@@ -2,9 +2,14 @@ namespace NexusEventBack.Enums;
 
 public enum RoleEnum
 {
-    Member,
-    SupportAnalist,
+    Intern,
+    Secretary,
+    Developer,
+    Designer,
     Manager,
-    President,
     CEO,
+    CTO,
+    CFO,
+    President,
+    Administrator
 }
