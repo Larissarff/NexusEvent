@@ -131,7 +131,7 @@ namespace NexusEventBack.Test.Controllers
         [Fact]
         public async Task CreateUser_ShouldReturnBadRequest_WhenModelIsInvalid_PasswordIsRequired()
         {
-            _controller.ModelState.AddModelError("Email", "Required");
+            _controller.ModelState.AddModelError("PasswordHash", "Required");
 
             var user = new UserModel
             {
