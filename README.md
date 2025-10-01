@@ -4,6 +4,9 @@
 
 NexusEvents é uma plataforma completa para o gerenciamento de eventos corporativos, desenvolvida para demonstrar habilidades práticas em ASP.NET Core, Angular, Python (FastAPI), MySQL, Docker e DevOps. O sistema permite desde o cadastro de eventos até o controle de acesso com reconhecimento facial.
 
+Notion de organização de desenvolvimento: 
+
+    https://www.notion.so/Nexus-Event-232907cc02df80869ef1db39317850d3
 
 ---
 
@@ -127,7 +130,7 @@ Frontend: Jasmine/Karma
 Para rodar testes:
 
 # Backend
-    cd backend/Api
+    cd NexusEventFrontEnd
 
     dotnet test
 
