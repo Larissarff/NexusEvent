@@ -5,10 +5,10 @@ namespace NexusEventBack.Repositories;
 
 public interface IUserRepository
 {
-    Task<User?> GetByIdAsync(int id);
-    Task<IEnumerable<User>> GetAllAsync();
-    Task<User> AddAsync(User user);
-    Task<User?> UpdateAsync(User user);
+    Task<UserModel?> GetByIdAsync(int id);
+    Task<IEnumerable<UserModel>> GetAllAsync();
+    Task<UserModel> AddAsync(UserModel user);
+    Task<UserModel?> UpdateAsync(UserModel user);
     Task<bool> DeleteAsync(int id);
     Task<bool> RestoreAsync(int id);
 }

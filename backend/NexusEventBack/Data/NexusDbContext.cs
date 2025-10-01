@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using NexusEventBack.Models;
+using System.Linq.Expressions;
 
 namespace NexusEventBack.Data
 {
@@ -39,10 +40,13 @@ namespace NexusEventBack.Data
             {
                 if (typeof(RegisterModel).IsAssignableFrom(entityType.ClrType))
                 {
-                    modelBuilder.Entity(entityType.ClrType)
-                        .HasQueryFilter(
-                            EF.Property<bool>(EF.Property<object>(null, entityType.ClrType.Name), "IsDeleted") == false
-                        );
+                    var method = typeof(EF).GetMethod("Property")!.MakeGenericMethod(typeof(bool));
+                    var parameter = Expression.Parameter(entityType.ClrType, "e");
+                    var property = Expression.Call(method, parameter, Expression.Constant("IsDeleted"));
+                    var compare = Expression.Equal(property, Expression.Constant(false));
+                    var lambda = Expression.Lambda(compare, parameter);
+
+                    modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
                 }
             }
         }

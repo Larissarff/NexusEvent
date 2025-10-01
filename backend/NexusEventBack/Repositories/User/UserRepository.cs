@@ -1,35 +1,36 @@
 using NexusEventBack.Models;
+using NexusEventBack.Data;
+using Microsoft.EntityFrameworkCore;
 using NexusEventBack.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using NexusEventBack.Exceptions;
-using NexusEventBack.Services;
 
 namespace NexusEventBack.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly AppDbContext _context;
+    private readonly NexusDbContext _context;
 
-    public UserRepository(AppDbContext context)
+    public UserRepository(NexusDbContext context)
     {
         _context = context;
     }
 
-    public async Task<User?> GetByIdAsync(int id)
+    public async Task<UserModel?> GetByIdAsync(int id)
         => await _context.Users.FindAsync(id);
 
-    public async Task<IEnumerable<User>> GetAllAsync()
+    public async Task<IEnumerable<UserModel>> GetAllAsync()
         => await _context.Users.ToListAsync();
 
-    public async Task<User> AddAsync(User user)
+    public async Task<UserModel> AddAsync(UserModel user)
     {
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
         return user;
     }
 
-    public async Task<User?> UpdateAsync(User user)
+    public async Task<UserModel?> UpdateAsync(UserModel user)
     {
         var existing = await _context.Users.FindAsync(user.Id);
         if (existing == null) return null;

@@ -1,4 +1,5 @@
 using NexusEventBack.Models;
+using NexusEventBack.Repositories;
 using NexusEventBack.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,13 +16,19 @@ namespace NexusEventBack.Services
             _repository = repository;
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
-            => await _repository.GetByIdAsync(id);
+        public async Task<UserModel> GetUserByIdAsync(int id)
+        {
+            UserModel? user = await _repository.GetByIdAsync(id);
+            if (user == null)
+                throw new NotFoundException($"Usuário {id} não encontrado.");
+            return user;
+        }
 
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+
+        public async Task<IEnumerable<UserModel>> GetAllUsersAsync()
             => await _repository.GetAllAsync();
 
-        public async Task<User> CreateUserAsync(UserModel userModel)
+        public async Task<UserModel> CreateUserAsync(UserModel userModel)
         {
             try
             {
@@ -34,7 +41,7 @@ namespace NexusEventBack.Services
                 if (string.IsNullOrWhiteSpace(userModel.PasswordHash))
                     throw new ValidationException("A senha do usuário é obrigatória.");
 
-                var user = new User
+                UserModel user = new UserModel
                 {
                     Name = userModel.Name,
                     Email = userModel.Email,
@@ -54,9 +61,12 @@ namespace NexusEventBack.Services
             }
         }
 
-        public async Task<User> UpdateUserAsync(int id, UserModel userModel)
+        public async Task<UserModel> UpdateUserAsync(int id, UserModel userModel)
         {
-            var user = new User
+            if (userModel == null)
+                throw new NotFoundException($"Usuário {id} não encontrado.");
+
+            UserModel user = new UserModel
             {
                 Id = id,
                 Name = userModel.Name,
