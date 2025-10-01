@@ -40,15 +40,15 @@ namespace NexusEventBack.Test.Controllers
         }
 
         [Fact]
-          public async Task GetAllUsers_ShouldReturnNoContent_WhenListIsEmpty()
-          {
-              var users = new List<UserModel>(); // vazio
-              _mockService.Setup(s => s.GetAllUsersAsync()).ReturnsAsync(users);
-          
-              var result = await _controller.GetAllUsers();
-          
-              Assert.IsType<NoContentResult>(result);
-          }
+        public async Task GetAllUsers_ShouldReturnNoContent_WhenListIsEmpty()
+        {
+            var users = new List<UserModel>(); // vazio
+            _mockService.Setup(s => s.GetAllUsersAsync()).ReturnsAsync(users);
+
+            var result = await _controller.GetAllUsers();
+
+            Assert.IsType<NoContentResult>(result);
+        }
 
 
         [Fact]
@@ -68,7 +68,7 @@ namespace NexusEventBack.Test.Controllers
             Assert.Equal("Alice", returnUser.Name);
         }
 
-         [Fact]
+        [Fact]
         public async Task GetUserById_ShouldReturnNotFound_WhenUserDoesNotExist()
         {
             _mockService.Setup(s => s.GetUserByIdAsync(999)).ReturnsAsync((UserModel?)null);
@@ -199,33 +199,58 @@ namespace NexusEventBack.Test.Controllers
         }
 
         [Fact]
-        public async Task DeleteUser_ShouldReturnNoContent_WhenSuccessful()
+        public async Task DeleteUser_ShouldReturnNoContent_WhenUserDeleted()
         {
-            _mockService.Setup(s => s.DeleteUserAsync(1)).ReturnsAsync(true);
+            int userId = 1;
+            _serviceMock.Setup(s => s.DeleteUserAsync(userId))
+                        .ReturnsAsync(true);
 
-            var result = await _controller.DeleteUser(1);
+            var result = await _controller.DeleteUser(userId);
 
-            Assert.IsType<NoContentResult>(result);
+            var actionResult = Assert.IsType<NoContentResult>(result);
+            _serviceMock.Verify(s => s.DeleteUserAsync(userId), Times.Once);
         }
 
         [Fact]
         public async Task DeleteUser_ShouldReturnNotFound_WhenUserDoesNotExist()
         {
-            _mockService.Setup(s => s.DeleteUserAsync(99)).ReturnsAsync(false);
+            int userId = 99;
+            _serviceMock.Setup(s => s.DeleteUserAsync(userId))
+                        .ReturnsAsync(false);
 
-            var result = await _controller.DeleteUser(99);
+            var result = await _controller.DeleteUser(userId);
 
-            Assert.IsType<NotFoundResult>(result);
+            var actionResult = Assert.IsType<NotFoundObjectResult>(result);
+            var response = Assert.IsType<dynamic>(actionResult.Value);
+            Assert.Equal("Usuário não encontrado.", (string)response.error);
         }
 
         [Fact]
-        public async Task DeleteUser_ShouldReturnNotFound_WhenUserDoesNotExist()
+        public async Task RestoreUser_ShouldReturnOk_WhenUserRestored()
         {
-            _mockService.Setup(s => s.DeleteUserAsync(99)).ReturnsAsync(false);
+            int userId = 1;
+            _serviceMock.Setup(s => s.RestoreUserAsync(userId))
+                        .ReturnsAsync(true);
 
-            var result = await _controller.DeleteUser(99);
+            var result = await _controller.RestoreUser(userId);
 
-            Assert.IsType<NotFoundResult>(result);
+            var actionResult = Assert.IsType<OkObjectResult>(result);
+            var response = Assert.IsType<dynamic>(actionResult.Value);
+            Assert.Equal("Usuário restaurado com sucesso.", (string)response.message);
+        }
+
+        [Fact]
+        public async Task RestoreUser_ShouldReturnNotFound_WhenUserDoesNotExist()
+        {
+            int userId = 99;
+            _serviceMock.Setup(s => s.RestoreUserAsync(userId))
+                        .ReturnsAsync(false);
+
+            var result = await _controller.RestoreUser(userId);
+
+            var actionResult = Assert.IsType<NotFoundObjectResult>(result);
+            var response = Assert.IsType<dynamic>(actionResult.Value);
+            Assert.Equal("Usuário não encontrado ou não estava deletado.", (string)response.error);
         }
     }
 }

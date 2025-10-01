@@ -68,11 +68,16 @@ namespace NexusEventBack.Controllers
         public async Task<IActionResult> DeleteUser(int id)
         {
             var deleted = await _userService.DeleteUserAsync(id);
-
-            if (!deleted)
-                return NotFound();
-
+            if (!deleted) return NotFound(new { error = "Usuário não encontrado." });
             return NoContent();
+        }
+
+        [HttpPatch("{id}/restore")]
+        public async Task<IActionResult> RestoreUser(int id)
+        {
+            var restored = await _userService.RestoreUserAsync(id);
+            if (!restored) return NotFound(new { error = "Usuário não encontrado ou não estava deletado." });
+            return Ok(new { message = "Usuário restaurado com sucesso." });
         }
     }
 }
