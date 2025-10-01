@@ -9,5 +9,6 @@ namespace NexusEventBack.Services
         Task<User> CreateUserAsync(UserModel user);
         Task<User> UpdateUserAsync(int id, UserModel userModel);
         Task<bool> DeleteUserAsync(int id);
+        Task<bool> RestoreUserAsync(int id);
     }
 }

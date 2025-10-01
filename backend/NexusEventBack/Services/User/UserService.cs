@@ -69,6 +69,14 @@ namespace NexusEventBack.Services
         }
 
         public async Task<bool> DeleteUserAsync(int id)
-            => await _repository.DeleteAsync(id);
+        {
+            return await _repository.DeleteAsync(id);
+        }
+
+        public async Task<bool> RestoreUserAsync(int id)
+        {
+            return await _repository.RestoreAsync(id);
+        }
+
     }
 }
