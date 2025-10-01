@@ -6,6 +6,7 @@ using NexusEventBack.Exceptions;
 using NexusEventBack.Services;
 
 namespace NexusEventBack.Repositories;
+
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _context;
@@ -43,8 +44,22 @@ public class UserRepository : IUserRepository
         var user = await _context.Users.FindAsync(id);
         if (user == null) return false;
 
-        _context.Users.Remove(user);
+        user.IsDeleted = true;
+        _context.Users.Update(user);
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> RestoreAsync(int id)
+    {
+        var user = await _context.Users.IgnoreQueryFilters()
+                                       .FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null) return false;
+
+        user.IsDeleted = false;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
 }
